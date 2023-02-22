@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Кассовый чек</title>
+  </head>
+  <body>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;700&display=swap");
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      .alert {
+        background-color: #f9f9f9;
+        font-family: "Oswald", sans-serif;
+        color: #141414;
+        padding: 7px;
+        border: 1.5px solid #141414;
+        width: fit-content;
+        margin-top: 30px;
+        margin-left: 30px;
+      }
+      #header-caption {
+        text-align: center;
+      }
+      #date-of-purchase {
+        margin-bottom: 30px;
+      }
+      .info {
+        display: inline-block;
+      }
+      .info:first-child {
+        margin-left: 30px;
+        margin-right: 100px;
+      }
+      .main-info {
+        margin-bottom: 20px;
+      }
+      .sum {
+        text-align: right;
+        margin-right: 100px;
+      }
+      #footer,
+      #product {
+        margin-left: 20px;
+      }
+    </style>
+    <div class="alert"></div>
+    <script>
+      let namesOfProducts = [];
+      let productQty = [];
+      let pricesOfProducts = [];
+
+      const SIZE_OF_ARRAY = parseInt(prompt("Введите количество продуктов", 0));
+
+      for (let i = 0; i < SIZE_OF_ARRAY; i++) {
+        namesOfProducts[i] = prompt(
+          `Введите наименование ${i + 1}-го продукта`,
+          ""
+        );
+        productQty[i] = parseInt(
+          prompt(`Введите общее количество ${i + 1}-го продукта`, 0)
+        );
+        pricesOfProducts[i] = parseFloat(
+          prompt(`Введите стоимость ${i + 1}-го продукта`, 0)
+        );
+      }
+
+      let discount;
+
+      do {
+        discount = parseFloat(
+          prompt("Введите скидку в размере от 1 до 5 %", 0)
+        );
+      } while (discount < 1 || discount > 5);
+
+      let totalCostsOfProducts = [];
+      let totalSum = 0;
+
+      for (let i = 0; i < SIZE_OF_ARRAY; i++) {
+        totalCostsOfProducts[i] = productQty[i] * pricesOfProducts[i];
+        totalSum += totalCostsOfProducts[i];
+      }
+
+      let discountSum = (discount / 100) * totalSum;
+      let sumWithDiscount = totalSum - discountSum;
+
+      let date = new Date();
+      let currentDate = date.toLocaleString();
+
+      document.querySelector(".alert").innerHTML =
+        '<p>ООО "Евроторг"<p id="header-caption"><strong>СПАСИБО ЗА ПОКУПКУ!</strong><p id="date-of-purchase">Дата покупки: ' +
+        currentDate;
+      for (let i = 0; i < SIZE_OF_ARRAY; i++) {
+        document.querySelector(".alert").innerHTML +=
+          '<p id="product">' +
+          namesOfProducts[i] +
+          '<div class="main-info"><div class="info">' +
+          productQty[i] +
+          " шт." +
+          "</div>" +
+          '<div class="info">= ' +
+          totalCostsOfProducts[i].toFixed(2);
+      }
+      document.querySelector(".alert").innerHTML +=
+        '<div id="footer"><p><strong>ИТОГО</strong></p>' +
+        '<p class="sum"><strong>' +
+        totalSum.toFixed(2) +
+        " RUB</strong></p><p>Ваша скидка: " +
+        discount +
+        '%</p><p class="sum">' +
+        discountSum.toFixed(2) +
+        ' RUB</p><p><strong>СУММА СО СКИДКОЙ</strong></p><p class="sum"><strong>' +
+        sumWithDiscount.toFixed(2) +
+        " RUB</strong></p></div>";
+    </script>
+  </body>
+</html>
